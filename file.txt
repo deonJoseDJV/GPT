@@ -1,0 +1,99 @@
+npm i express nodemon cors dotenv openai
+
+
+nodemon server.js
+if needed to do npm start then in package.json
+we need to put 
+"scripts":{
+    "start":"nodemon server.js"
+}
+
+//sample interaction with openai and npm
+import OpenAI from 'openai';
+import 'dotenv/config';
+
+const client = new OpenAI({
+  apiKey: process.env['OPENAI_API_KEY'], // This is the default and can be omitted
+});
+
+const response = await client.responses.create({
+  model: 'gpt-4o-mini',
+  
+  input: 'Tell me a joke about programming.',
+});
+
+console.log(response.output_text);
+
+//and also openai with api endpoints post req thing done 
+
+//for backend we have models/utils/routes
+
+we perfrom crud for threadSchema only not message as not needed
+for message
+
+threadSchema
+threadId,title,messages,createdAt,updatedAt
+
+messageSchema
+content,role->user,assistant,timestamp
+
+
+so schema written in models
+
+this crud things and post stuffs in utils
+
+doen with routes/chat.js rotuer thing and export in server.js
+now main thing
+Routes:Chat.js
+
+GET/ thread  -> visible threads in sorted order of updated ones
+GET /thread/:threadId   -> to display each threads
+
+DELETE /thread/:threadId -> to delete ones
+POST /chat   -> message + reply (of the person typing and resp that he gets)
+
+
+
+Frontend part
+npm create vite@latest
+
+then delete unnecessary things
+look at the ui part and divide the components like
+
+Sidebar
+ChatWindow
+
+ChatWindow -> ChatInput
+ChatWindow -> ChatComonent
+ChatWindow -> navbar 
+and do all the stylings and files and pages
+
+
+after that we go with the functionality part
+
+fn1:which is using useStates ad state functions to type and get reply from open ai
+
+then the time where it gets reply ther is a gap
+so adding loaders -> react-spinners
+
+for loading thingy we use another state variable useState
+here useState can be false and true -> its like 
+when we want it then we make it true else for all other case
+we put it false
+
+
+functionality
+1-> sending prompt -> reply
+     loaders
+2-> show our chats(prompts+reply)
+
+then we work on with the formatting part, that is
+whether it be the code generation or something in the proper way of code
+for the formatting part we can use the react-markdown package
+
+after that we will work on the typing effect in gpts
+
+3-> show all threads ->db overchats
+
+
+
