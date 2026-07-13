@@ -1,59 +1,162 @@
 # SigmaGPT
 
-A MERN-based ChatGPT replica implemented from scratch using OpenAI, with a
-premium glassmorphism UI (React + Vite) and an Express + MongoDB backend.
+An AI-powered conversational web application inspired by ChatGPT, built using the **MERN stack** and the **OpenAI API**. SigmaGPT provides a modern glassmorphism interface, persistent multi-thread conversations, and a scalable Express + MongoDB backend designed with production-oriented development practices.
 
 ---
 
-## Stack
+## Preview
 
-| Layer     | Tech                                             |
-|-----------|--------------------------------------------------|
-| Frontend  | React 19, Vite 7, react-markdown, rehype-highlight |
-| Backend   | Node.js, Express 5, Mongoose 8, OpenAI SDK       |
-| Database  | MongoDB (local or MongoDB Atlas)                 |
+<p align="center">
+  <img width="1458" alt="Home" src="https://github.com/user-attachments/assets/315f3750-c6af-4b5e-80ac-9eaa427a62df" />
+  <br><br>
+  <img width="1457" alt="Chat" src="https://github.com/user-attachments/assets/0b128a1e-7d76-4a46-84ea-fecbc7f1f936" />
+  <br><br>
+  <img width="1459" alt="Conversation History" src="https://github.com/user-attachments/assets/33dd1c27-2048-47af-8115-062eb97b9449" />
+</p>
+
+---
+
+## Features
+
+* 🤖 AI-powered conversations using the OpenAI API
+* 💬 Multi-thread conversation management
+* 📝 Persistent chat history using MongoDB
+* ⚡ Fast React + Vite frontend
+* 🎨 Premium glassmorphism user interface
+* 📱 Responsive design
+* 🔒 Secure server-side OpenAI API integration
+* 🛡️ Environment-based configuration
+* 🚨 Graceful API and database error handling
+* 📄 Markdown rendering with syntax-highlighted code blocks
+
+---
+
+## Tech Stack
+
+| Layer               | Technologies                                       |
+| ------------------- | -------------------------------------------------- |
+| **Frontend**        | React 19, Vite 7, React Markdown, Rehype Highlight |
+| **Backend**         | Node.js, Express 5, Mongoose 8, OpenAI SDK         |
+| **Database**        | MongoDB Atlas / MongoDB Community                  |
+| **Version Control** | Git & GitHub                                       |
+
+---
+
+## Architecture
+
+```text
+                User
+                  │
+                  ▼
+        React + Vite Frontend
+                  │
+          REST API Requests
+                  │
+                  ▼
+         Express + Node.js API
+          │                 │
+          │                 ▼
+          │          OpenAI API
+          │
+          ▼
+      MongoDB Database
+```
+
+---
+
+## Project Structure
+
+```text
+SigmaGPT
+├── Backend
+│   ├── models
+│   │   └── Thread.js
+│   ├── routes
+│   │   ├── chat.js
+│   │   └── thread.js
+│   ├── utils
+│   │   └── openai.js
+│   ├── server.js
+│   ├── package.json
+│   └── .env.example
+│
+├── Frontend
+│   ├── src
+│   ├── public
+│   ├── package.json
+│   └── vite.config.js
+│
+└── README.md
+```
 
 ---
 
 ## Prerequisites
 
-- **Node.js 20+** (developed on v24) and npm
-- A **MongoDB** database — either:
-  - a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster (recommended, works from any machine), or
-  - a local MongoDB install
-- An **OpenAI API key** — https://platform.openai.com/api-keys
+Before running the project, install the following:
+
+* Node.js **20+** (developed on Node.js 24)
+* npm
+* MongoDB Atlas account (recommended) or local MongoDB
+* OpenAI API Key
 
 ---
 
-## Setup (run on any machine after cloning)
+## Installation
 
-### 1. Backend
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/deonJoseDJV/GPT.git
+cd GPT
+```
+
+---
+
+### 2. Backend Setup
 
 ```bash
 cd Backend
 npm install
-cp .env.example .env        # Windows PowerShell: Copy-Item .env.example .env
+cp .env.example .env
 ```
 
-Open `Backend/.env` and fill in:
+For Windows PowerShell:
 
+```powershell
+Copy-Item .env.example .env
 ```
-OPENAI_API_KEY=sk-...
-MONGODB_URI=mongodb+srv://<user>:<pass>@<cluster>.mongodb.net/sigmagpt
+
+Update the `.env` file:
+
+```env
+OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxx
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/sigmagpt
 PORT=8080
 ```
 
-Then start it:
+Start the backend:
 
 ```bash
-npm run dev      # auto-reload (nodemon)
-# or
-npm start        # plain node
+npm run dev
 ```
 
-You should see `server running on 8080` and `Connected with Database!`.
+or
 
-### 2. Frontend
+```bash
+npm start
+```
+
+Expected output:
+
+```text
+Connected with Database!
+Server running on port 8080
+```
+
+---
+
+### 3. Frontend Setup
 
 ```bash
 cd Frontend
@@ -61,39 +164,150 @@ npm install
 npm run dev
 ```
 
-Open the printed URL (default **http://localhost:5173**).
+Open your browser and visit:
+
+```text
+http://localhost:5173
+```
 
 ---
 
-## Important notes for running on another system
+## Environment Variables
 
-- **`.env` and `node_modules` are gitignored** — they are *not* pushed to GitHub.
-  On every new machine you must recreate `.env` (step 1) and run `npm install`
-  in **both** `Backend/` and `Frontend/`.
+Create a `.env` file inside the **Backend** directory.
 
-- **MongoDB Atlas IP allowlist:** Atlas only accepts connections from allowed IPs.
-  In the Atlas dashboard → **Network Access**, add the new machine's IP, or add
-  `0.0.0.0/0` (allow from anywhere) for development. Otherwise the backend will
-  hang/timeout connecting to the database.
-
-- **Corporate networks (SSL inspection / Zscaler, etc.):** some corporate networks
-  block or intercept `api.openai.com`, which shows up as a `403` or a TLS
-  certificate error. The `start`/`dev` scripts already pass `--use-system-ca` so
-  Node trusts the OS certificate store. If OpenAI is still blocked, run it on a
-  network that permits `api.openai.com`, or route through an approved gateway.
+| Variable       | Description                         |
+| -------------- | ----------------------------------- |
+| OPENAI_API_KEY | Your OpenAI API key                 |
+| MONGODB_URI    | MongoDB Atlas or local database URI |
+| PORT           | Backend server port                 |
 
 ---
 
-## Project structure
+## API Endpoints
 
+| Method | Endpoint          | Description               |
+| ------ | ----------------- | ------------------------- |
+| POST   | `/api/chat`       | Generate AI responses     |
+| GET    | `/api/thread`     | Fetch all chat threads    |
+| POST   | `/api/thread`     | Create a new conversation |
+| DELETE | `/api/thread/:id` | Delete a conversation     |
+
+---
+
+## Security
+
+The application follows several backend security practices:
+
+* Server-side API key management
+* Environment variable configuration
+* Input validation
+* CORS configuration
+* Centralized error handling
+* Protected OpenAI API calls
+* Graceful fallback responses
+
+---
+
+## Running on Another Machine
+
+After cloning the repository:
+
+1. Run `npm install` in both the `Backend` and `Frontend` folders.
+2. Create a new `.env` file from `.env.example`.
+3. Add your OpenAI API key.
+4. Configure your MongoDB connection.
+5. Start the backend.
+6. Start the frontend.
+
+### MongoDB Atlas
+
+If using MongoDB Atlas, ensure the new machine's IP address is added to the Atlas Network Access allowlist.
+
+For development, you may temporarily allow:
+
+```text
+0.0.0.0/0
 ```
-gpt/
-├── Backend/
-│   ├── models/        # Mongoose schemas (Thread)
-│   ├── routes/        # Express routes (/api/chat, /api/thread)
-│   ├── utils/         # openai.js — OpenAI request helper
-│   ├── server.js      # app entry point
-│   └── .env.example   # template for required secrets
-└── Frontend/
-    └── src/           # React components + CSS (glassmorphism UI)
+
+---
+
+## Development Scripts
+
+### Backend
+
+```bash
+npm run dev
 ```
+
+Runs the backend using Nodemon.
+
+```bash
+npm start
+```
+
+Runs the production server.
+
+### Frontend
+
+```bash
+npm run dev
+```
+
+Starts the Vite development server.
+
+```bash
+npm run build
+```
+
+Creates an optimized production build.
+
+```bash
+npm run preview
+```
+
+Previews the production build locally.
+
+---
+
+## Future Improvements
+
+* User authentication
+* Streaming AI responses
+* Image generation support
+* Voice input
+* Chat sharing
+* Conversation search
+* Export conversations
+* Theme customization
+
+---
+
+## Key Learnings
+
+This project strengthened my understanding of:
+
+* Full-stack MERN application development
+* REST API design
+* MongoDB schema design using Mongoose
+* Secure OpenAI API integration
+* Environment-based configuration
+* Frontend state management in React
+* Production-oriented backend architecture
+* Error handling and debugging
+
+---
+
+## Author
+
+**Deon Jose**
+
+Computer Science Engineering Student
+
+GitHub: https://github.com/deonJoseDJV
+
+---
+
+## License
+
+This project is intended for educational and portfolio purposes.
