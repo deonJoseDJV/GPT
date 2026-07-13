@@ -1,0 +1,132 @@
+/* ============================================================
+   SigmaGPT — Design tokens, reset & aurora background
+   Glassmorphism · Electric Violet
+   ============================================================ */
+
+:root {
+    /* base surfaces */
+    --bg-0: #07070c;
+    --bg-1: #0b0a12;
+    --bg-2: #100f1a;
+
+    /* glass */
+    --glass-bg: rgba(255, 255, 255, 0.045);
+    --glass-bg-strong: rgba(255, 255, 255, 0.07);
+    --glass-border: rgba(255, 255, 255, 0.09);
+    --glass-border-strong: rgba(255, 255, 255, 0.16);
+    --glass-blur: blur(22px) saturate(150%);
+
+    /* accent — electric violet */
+    --accent: #8b5cf6;
+    --accent-2: #6366f1;
+    --accent-3: #a855f7;
+    --accent-grad: linear-gradient(135deg, #a855f7 0%, #8b5cf6 45%, #6366f1 100%);
+    --accent-glow: rgba(139, 92, 246, 0.45);
+    --accent-soft: rgba(139, 92, 246, 0.14);
+
+    /* text */
+    --text-0: #f4f3fb;
+    --text-1: #c9c7d6;
+    --text-2: #918fa4;
+    --text-3: #6b6980;
+
+    /* radii & shadow */
+    --r-sm: 10px;
+    --r-md: 16px;
+    --r-lg: 24px;
+    --r-xl: 32px;
+    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    --shadow-glow: 0 8px 30px var(--accent-glow);
+
+    --font-ui: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+
+    color-scheme: dark;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-ui);
+    color: var(--text-0);
+    background-color: var(--bg-0);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+}
+
+/* ---- Aurora backdrop ---------------------------------------
+   Fixed, sits behind everything. Slow-drifting violet blooms. */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: -30vmax;
+    z-index: -2;
+    pointer-events: none;
+    filter: blur(70px);
+}
+
+body::before {
+    background:
+        radial-gradient(38vmax 38vmax at 18% 22%, rgba(168, 85, 247, 0.30), transparent 60%),
+        radial-gradient(42vmax 42vmax at 82% 18%, rgba(99, 102, 241, 0.26), transparent 62%),
+        radial-gradient(46vmax 46vmax at 65% 88%, rgba(139, 92, 246, 0.24), transparent 60%),
+        radial-gradient(30vmax 30vmax at 8% 92%, rgba(217, 70, 239, 0.18), transparent 60%);
+    animation: aurora-drift 26s ease-in-out infinite alternate;
+}
+
+body::after {
+    background:
+        radial-gradient(28vmax 28vmax at 50% 12%, rgba(129, 140, 248, 0.20), transparent 60%),
+        radial-gradient(34vmax 34vmax at 90% 70%, rgba(168, 85, 247, 0.16), transparent 60%);
+    animation: aurora-drift 34s ease-in-out infinite alternate-reverse;
+    opacity: 0.9;
+}
+
+/* subtle grain/vignette to ground the glass */
+#root::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(120% 120% at 50% 0%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+@keyframes aurora-drift {
+    0%   { transform: translate3d(-4%, -2%, 0) rotate(0deg) scale(1); }
+    50%  { transform: translate3d(3%, 4%, 0) rotate(8deg) scale(1.08); }
+    100% { transform: translate3d(5%, -3%, 0) rotate(-6deg) scale(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::before, body::after { animation: none; }
+}
+
+/* ---- Scrollbars -------------------------------------------- */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 99px;
+}
+*::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.22); }
+*::-webkit-scrollbar-track { background: transparent; }
+
+::selection {
+    background: var(--accent-soft);
+    color: #fff;
+}

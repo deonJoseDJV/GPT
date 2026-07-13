@@ -1,0 +1,21 @@
+{
+  "name": "sigmagpt-backend",
+  "version": "1.0.0",
+  "description": "SigmaGPT backend — Express + MongoDB + OpenAI",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --use-system-ca server.js",
+    "dev": "nodemon --exec \"node --use-system-ca server.js\""
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.1",
+    "openai": "^5.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

@@ -1,0 +1,15 @@
+# macOS system files
+.DS_Store
+
+# Node.js dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Build output
+dist/
+
+# Logs
+*.log
+npm-debug.log*
